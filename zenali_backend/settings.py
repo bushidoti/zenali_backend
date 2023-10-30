@@ -22,6 +22,11 @@ INSTALLED_APPS = [
     'django_filters',
     'authentification',
     'user',
+    'industrial_warehouse',
+    'consumable_warehouse',
+    'production',
+    'sale',
+    'buy',
     'rest_framework_simplejwt.token_blacklist',
 ]
 
