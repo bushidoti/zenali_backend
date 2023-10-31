@@ -3,7 +3,7 @@ from rest_framework import routers
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 from industrial_warehouse.views import *
-from sale.views import SaleFactorApi, SaleApi
+from sale.views import SaleFactorApi, SaleApi, AutoIncrementSaleFactorApi
 from buy.views import ApplyBuyApi
 
 router = routers.DefaultRouter()
@@ -23,12 +23,14 @@ router.register(r'consuming_material_factor', ConsumingMaterialFactorApi, 'consu
 router.register(r'consuming_material_check', ConsumingMaterialCheckApi, 'consuming_material_check')
 router.register(r'waste', WasteApi, 'waste')
 router.register(r'waste_check', WasteCheckApi, 'waste_check')
+router.register(r'auto_increment_sale_factor', AutoIncrementSaleFactorApi, 'auto_increment_sale_factor')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('', include('authentification.urls')),
     path('', include('user.urls')),
+    path('', include('industrial_warehouse.urls')),
     path('token/',
          jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
