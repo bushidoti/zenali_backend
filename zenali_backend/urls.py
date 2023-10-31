@@ -2,8 +2,27 @@ from django.contrib import admin
 from rest_framework import routers
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
+from industrial_warehouse.views import *
+from sale.views import SaleFactorApi, SaleApi
+from buy.views import ApplyBuyApi
 
 router = routers.DefaultRouter()
+router.register(r'apply_buy', ApplyBuyApi, 'apply_buy')
+router.register(r'sale_factor', SaleFactorApi, 'sale_factor')
+router.register(r'sale', SaleApi, 'sale')
+router.register(r'raw_material', RawMaterialApi, 'raw_material')
+router.register(r'consuming_material', ConsumingMaterialApi, 'consuming_material')
+router.register(r'raw_material_detailed', RawMaterialDetailedApi, 'raw_material_detailed')
+router.register(r'consuming_material_detailed', ConsumingMaterialDetailedApi, 'consuming_material_detailed')
+router.register(r'request_supply', RequestSupplyApi, 'request_supply')
+router.register(r'raw_material_factor', RawMaterialFactorApi, 'raw_material_factor')
+router.register(r'production', ProductionApi, 'production')
+router.register(r'production_check', ProductionCheckApi, 'production_check')
+router.register(r'raw_material_check', RawMaterialCheckApi, 'raw_material_check')
+router.register(r'consuming_material_factor', ConsumingMaterialFactorApi, 'consuming_material_factor')
+router.register(r'consuming_material_check', ConsumingMaterialCheckApi, 'consuming_material_check')
+router.register(r'waste', WasteApi, 'waste')
+router.register(r'waste_check', WasteCheckApi, 'waste_check')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
