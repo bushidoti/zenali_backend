@@ -23,7 +23,7 @@ class PermissionView(APIView):
     def get(self, request):
         group_ids = Group.objects.all().values_list('id', flat=True)
         perm_tuple = [x.name for x in Permission.objects.filter(group__id__in=group_ids)]
-        content = {'message': perm_tuple}
+        content = {'content': perm_tuple}
         return Response(content)
 
 
@@ -31,7 +31,7 @@ class FullNameView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        content = {'message': request.user.get_full_name()}
+        content = {'content': request.user.get_full_name()}
         return Response(content)
 
 
@@ -40,5 +40,5 @@ class DepartmentView(APIView):
 
     def get(self, request):
         result = Employee.objects.filter(user=request.user.id)
-        content = {'message': result[0].department}
+        content = {'content': result[0].department}
         return Response(content)
