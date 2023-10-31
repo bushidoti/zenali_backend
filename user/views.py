@@ -31,7 +31,7 @@ class FullNameView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        content = {'content': request.user.get_full_name()}
+        content = {'content': self.request.user.get_full_name()}
         return Response(content)
 
 
@@ -39,6 +39,6 @@ class DepartmentView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        result = Employee.objects.filter(user=request.user.id)
+        result = Employee.objects.filter(user=self.request.user.id)
         content = {'content': result[0].department}
         return Response(content)
