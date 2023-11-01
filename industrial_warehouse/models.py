@@ -64,6 +64,8 @@ class RawMaterialDetailed(models.Model):
     date = models.DateField("تاریخ", default='', blank=True, null=True)
     buyer = models.CharField("خریدار", default='', max_length=50, blank=True, null=True)
     seller = models.CharField("فروشنده", default='', max_length=50, blank=True, null=True)
+    address_seller = models.TextField("آدرس فروشنده", default='', blank=True, null=True)
+    seller_national_id = models.CharField("کدملی فروشنده", default='', max_length=50, blank=True, null=True)
     receiver = models.CharField("تحویل گیرنده", default='', max_length=50, blank=True, null=True)
     document_type = models.CharField("نوع مدرک", default='', max_length=50, blank=True, null=True)
     document_code = models.CharField("شناسه مدرک", default='', max_length=150, blank=True, null=True)
@@ -79,7 +81,11 @@ class RawMaterialDetailed(models.Model):
     def name(self):
         return self.product.name
 
+    def scale(self):
+        return self.product.scale
+
     name.short_description = 'نام کالا'
+    scale.short_description = 'مقیاس'
 
 
 class ConsumingMaterial(models.Model):
@@ -124,6 +130,8 @@ class ConsumingMaterialDetailed(models.Model):
     date = models.DateField("تاریخ", default='', blank=True, null=True)
     buyer = models.CharField("خریدار", default='', max_length=50, blank=True, null=True)
     seller = models.CharField("فروشنده", default='', max_length=50, blank=True, null=True)
+    address_seller = models.TextField("آدرس فروشنده", default='', blank=True, null=True)
+    seller_national_id = models.CharField("کدملی فروشنده", default='', max_length=50, blank=True, null=True)
     receiver = models.CharField("تحویل گیرنده", default='', max_length=50, blank=True, null=True)
     document_type = models.CharField("نوع مدرک", default='', max_length=50, blank=True, null=True)
     document_code = models.CharField("شناسه مدرک", default='', max_length=150, blank=True, null=True)
@@ -139,6 +147,11 @@ class ConsumingMaterialDetailed(models.Model):
     def name(self):
         return self.product.name
 
+    def scale(self):
+        return self.product.scale
+
+    name.short_description = 'نام کالا'
+    scale.short_description = 'مقیاس'
     name.short_description = 'نام کالا'
 
 
@@ -174,5 +187,3 @@ class Waste(models.Model):
 
     class Meta:
         verbose_name_plural = "گزراش انبار ضایعات"
-
-

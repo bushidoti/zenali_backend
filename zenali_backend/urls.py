@@ -6,6 +6,9 @@ from industrial_warehouse.views import *
 from production.views import PendingProduceApi
 from sale.views import SaleFactorApi, SaleApi, AutoIncrementSaleFactorApi
 from buy.views import ApplyBuyApi
+from .views import AutoIncrementApi
+from consumable_warehouse.views import ConsumableApi, ProductFactorApi, ProductApi, ProductDetailedApi, ProductCheckApi, \
+    CategoryApi
 
 router = routers.DefaultRouter()
 router.register(r'apply_buy', ApplyBuyApi, 'apply_buy')
@@ -26,13 +29,20 @@ router.register(r'waste', WasteApi, 'waste')
 router.register(r'waste_check', WasteCheckApi, 'waste_check')
 router.register(r'auto_increment_sale_factor', AutoIncrementSaleFactorApi, 'auto_increment_sale_factor')
 router.register(r'pending_produce', PendingProduceApi, 'pending_produce')
+router.register(r'pending_produce', PendingProduceApi, 'pending_produce')
+router.register(r'consumable', ConsumableApi, 'consumable')
+router.register(r'category', CategoryApi, 'category')
+router.register(r'product_factor', ProductFactorApi, 'product_factor')
+router.register(r'product', ProductApi, 'product')
+router.register(r'product_detailed', ProductDetailedApi, 'product_detailed')
+router.register(r'product_check', ProductCheckApi, 'product_check')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('', include('authentification.urls')),
     path('', include('user.urls')),
-    path('', include('industrial_warehouse.urls')),
+    path('auto_increment/<str:table>/', AutoIncrementApi.as_view(), name='auto_increment'),
     path('token/',
          jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),

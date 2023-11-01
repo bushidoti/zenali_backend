@@ -21,8 +21,10 @@ class PermissionView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        group_ids = Group.objects.all().values_list('id', flat=True)
-        perm_tuple = [x.name for x in Permission.objects.filter(group__id__in=group_ids)]
+        permissions = Permission.objects.filter(user=request.user)
+        group_permissions = Permission.objects.filter(group__user=request.user)
+
+        perm_tuple = [x.name for x in group_permissions]
         content = {'content': perm_tuple}
         return Response(content)
 

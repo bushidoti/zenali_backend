@@ -78,15 +78,14 @@ WSGI_APPLICATION = 'zenali_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'zenali_db',
-         'USER': 'postgres',
-         'PASSWORD': 'W1530346241w',
-         'HOST': 'localhost',
-         'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'zenali_db',
+        'USER': 'root',
+        'PASSWORD': 'W09337663405w',
+        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
