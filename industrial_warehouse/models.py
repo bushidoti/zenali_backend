@@ -1,4 +1,5 @@
 from django.db import models
+from django_jalali.db import models as jmodels
 
 
 class RawMaterial(models.Model):
@@ -12,7 +13,7 @@ class RawMaterial(models.Model):
 
 class ProductionCheck(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     checks = models.TextField("فایل باینری حواله", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام حواله", blank=False, null=True)
 
@@ -35,7 +36,7 @@ class RawMaterialFactor(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     factor = models.TextField("فایل باینری فاکتور", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام فاکتور", blank=False, null=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "فاکتور ها انبار مواد اولیه"
@@ -45,7 +46,7 @@ class RawMaterialCheck(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     checks = models.TextField("فایل باینری حواله", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام حواله", blank=False, null=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "حواله های انبار مواد اولیه"
@@ -61,13 +62,13 @@ class RawMaterialDetailed(models.Model):
     output = models.FloatField("حروجی", blank=True, null=True)
     afterOperator = models.FloatField("موجودی", blank=True, null=True)
     operator = models.CharField("عملیات", default='', max_length=50, blank=True, null=True)
-    date = models.DateField("تاریخ", default='', blank=True, null=True)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     buyer = models.CharField("خریدار", default='', max_length=50, blank=True, null=True)
     seller = models.CharField("فروشنده", default='', max_length=50, blank=True, null=True)
     address_seller = models.TextField("آدرس فروشنده", default='', blank=True, null=True)
     seller_national_id = models.CharField("کدملی فروشنده", default='', max_length=50, blank=True, null=True)
     receiver = models.CharField("تحویل گیرنده", default='', max_length=50, blank=True, null=True)
-    document_type = models.CharField("نوع مدرک", default='', max_length=50, blank=True, null=True)
+    ownership = models.CharField("نوع مالکیت", default='', max_length=50, blank=True, null=True)
     document_code = models.CharField("شناسه مدرک", default='', max_length=150, blank=True, null=True)
     product = models.ForeignKey(RawMaterial, on_delete=models.CASCADE, verbose_name="کالای مربوط به")
     factorCode = models.ForeignKey(RawMaterialFactor, on_delete=models.CASCADE, blank=True, null=True)
@@ -99,7 +100,7 @@ class ConsumingMaterial(models.Model):
 
 class ConsumingMaterialFactor(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     factor = models.TextField("فایل باینری فاکتور", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام فاکتور", blank=False, null=True)
 
@@ -109,7 +110,7 @@ class ConsumingMaterialFactor(models.Model):
 
 class ConsumingMaterialCheck(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     checks = models.TextField("فایل باینری حواله", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام حواله", blank=False, null=True)
 
@@ -127,13 +128,13 @@ class ConsumingMaterialDetailed(models.Model):
     output = models.FloatField("حروجی", blank=True, null=True)
     afterOperator = models.FloatField("موجودی", blank=True, null=True)
     operator = models.CharField("عملیات", default='', max_length=50, blank=True, null=True)
-    date = models.DateField("تاریخ", default='', blank=True, null=True)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     buyer = models.CharField("خریدار", default='', max_length=50, blank=True, null=True)
     seller = models.CharField("فروشنده", default='', max_length=50, blank=True, null=True)
     address_seller = models.TextField("آدرس فروشنده", default='', blank=True, null=True)
     seller_national_id = models.CharField("کدملی فروشنده", default='', max_length=50, blank=True, null=True)
     receiver = models.CharField("تحویل گیرنده", default='', max_length=50, blank=True, null=True)
-    document_type = models.CharField("نوع مدرک", default='', max_length=50, blank=True, null=True)
+    ownership = models.CharField("نوع مالکیت", default='', max_length=50, blank=True, null=True)
     document_code = models.CharField("شناسه مدرک", default='', max_length=150, blank=True, null=True)
     product = models.ForeignKey(ConsumingMaterial, on_delete=models.CASCADE, verbose_name="کالای مربوط به")
     factorCode = models.ForeignKey(ConsumingMaterialFactor, on_delete=models.CASCADE, blank=True, null=True)
@@ -160,7 +161,7 @@ class RequestSupply(models.Model):
     consuming_material_jsonData = models.JSONField("کپسول مواد مصرفی", blank=False, null=True)
     applicant = models.CharField("درخواست کننده", max_length=50, blank=False)
     purpose = models.CharField("دلیل", default='', max_length=150, blank=False, null=False)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     is_delivered = models.BooleanField("تحویل شده ؟", blank=True, null=True)
     supplement = models.BooleanField("متمم برای ادامه سفارش ؟", blank=True, null=True)
     which_request = models.BigIntegerField("متمم سفارش مربوطه ؟", blank=True, null=True)
@@ -171,7 +172,7 @@ class RequestSupply(models.Model):
 
 class WasteCheck(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     checks = models.TextField("فایل باینری حواله", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام حواله", blank=False, null=True)
 
@@ -180,7 +181,7 @@ class WasteCheck(models.Model):
 
 
 class Waste(models.Model):
-    date = models.DateField("تاریخ", default='', blank=True, null=True)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     product = models.ForeignKey(RequestSupply, on_delete=models.CASCADE, verbose_name="شماره سفارش مرتبط")
     checkCode = models.ForeignKey(WasteCheck, on_delete=models.CASCADE, blank=True, null=True, verbose_name="کالای "
                                                                                                             "مربوط به")

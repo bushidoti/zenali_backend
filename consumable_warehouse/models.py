@@ -1,4 +1,5 @@
 from django.db import models
+from django_jalali.db import models as jmodels
 
 
 class Product(models.Model):
@@ -15,7 +16,7 @@ class ProductFactor(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     factor = models.TextField("فایل باینری فاکتور", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام فاکتور", blank=False, null=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "فاکتور های انبار مصرفی"
@@ -25,7 +26,7 @@ class ProductCheck(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     checks = models.TextField("فایل باینری حواله", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام حواله", blank=False, null=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "حواله های انبار مصرفی"
@@ -41,7 +42,7 @@ class ProductDetailed(models.Model):
     output = models.FloatField("حروجی", blank=True, null=True)
     afterOperator = models.FloatField("موجودی", blank=True, null=True)
     operator = models.CharField("عملیات", default='', max_length=50, blank=True, null=True)
-    date = models.DateField("تاریخ", default='', blank=True, null=True)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     buyer = models.CharField("خریدار", default='', max_length=50, blank=True, null=True)
     seller = models.CharField("فروشنده", default='', max_length=50, blank=True, null=True)
     address_seller = models.TextField("آدرس فروشنده", default='', blank=True, null=True)

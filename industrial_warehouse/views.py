@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import BasePermission
 from django_filters.fields import CSVWidget, MultipleChoiceField
 from django_filters import rest_framework as df_filters
+from rest_framework.pagination import PageNumberPagination, _positive_int
 
 
 class MyPermission(BasePermission):
@@ -57,14 +58,19 @@ class RawMaterialFilter(django_filters.rest_framework.FilterSet):
         fields = ['code', 'name', 'name_exact']
 
 
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size_query_param = 'size'
+    page_query_param = 'page'
+
+
 class RawMaterialApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.rawmaterial"
-
     serializer_class = RawMaterialSerializer
     queryset = RawMaterial.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_class = RawMaterialFilter
+    pagination_class = CustomPageNumberPagination
 
 
 class ConsumingMaterialFilter(django_filters.rest_framework.FilterSet):
@@ -73,14 +79,14 @@ class ConsumingMaterialFilter(django_filters.rest_framework.FilterSet):
     code = django_filters.rest_framework.NumberFilter(field_name='code', lookup_expr='contains')
 
     class Meta:
-        model = RawMaterial
+        model = ConsumingMaterial
         fields = ['code', 'name', 'name_exact']
 
 
 class ConsumingMaterialApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.consumingmaterial"
-
+    pagination_class = CustomPageNumberPagination
     serializer_class = ConsumingMaterialSerializer
     queryset = ConsumingMaterial.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
@@ -96,7 +102,7 @@ class RawMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
     receiver = django_filters.rest_framework.CharFilter(field_name='receiver', lookup_expr='contains')
     seller = django_filters.rest_framework.CharFilter(field_name='seller', lookup_expr='contains')
     document_code = django_filters.rest_framework.CharFilter(field_name='document_code', lookup_expr='contains')
-    document_type = django_filters.rest_framework.CharFilter(field_name='document_type', lookup_expr='contains')
+    ownership = django_filters.rest_framework.CharFilter(field_name='ownership', lookup_expr='contains')
     id = django_filters.rest_framework.CharFilter(field_name='id', lookup_expr='exact')
     systemID = django_filters.rest_framework.NumberFilter(field_name='systemID', lookup_expr='exact')
     operator = MultipleFilter(
@@ -112,7 +118,7 @@ class RawMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
         model = RawMaterialDetailed
         fields = ['id', 'date', 'name', 'seller', 'product_contain', 'amendment', 'consumable',
                   'scale', 'document_code',
-                  'document_type',
+                  'ownership',
                   'operator', 'receiver',
                   'buyer',
                   'systemID',
@@ -122,7 +128,7 @@ class RawMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
 class RawMaterialDetailedApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.rawmaterialdetailed"
-
+    pagination_class = CustomPageNumberPagination
     serializer_class = RawMaterialDetailedSerializer
     queryset = RawMaterialDetailed.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
@@ -149,7 +155,7 @@ class ConsumingMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
     receiver = django_filters.rest_framework.CharFilter(field_name='receiver', lookup_expr='contains')
     seller = django_filters.rest_framework.CharFilter(field_name='seller', lookup_expr='contains')
     document_code = django_filters.rest_framework.CharFilter(field_name='document_code', lookup_expr='contains')
-    document_type = django_filters.rest_framework.CharFilter(field_name='document_type', lookup_expr='contains')
+    ownership = django_filters.rest_framework.CharFilter(field_name='ownership', lookup_expr='contains')
     id = django_filters.rest_framework.CharFilter(field_name='id', lookup_expr='exact')
     systemID = django_filters.rest_framework.NumberFilter(field_name='systemID', lookup_expr='exact')
     operator = MultipleFilter(
@@ -162,10 +168,10 @@ class ConsumingMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
     consumable = django_filters.rest_framework.NumberFilter(field_name='consumable', lookup_expr='contains')
 
     class Meta:
-        model = RawMaterialDetailed
+        model = ConsumingMaterialDetailed
         fields = ['id', 'date', 'name', 'seller', 'product_contain', 'amendment', 'consumable',
                   'scale', 'document_code',
-                  'document_type',
+                  'ownership',
                   'operator', 'receiver',
                   'buyer',
                   'systemID',
@@ -175,8 +181,8 @@ class ConsumingMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
 class ConsumingMaterialDetailedApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.consumingmaterialdetailed"
-
-    serializer_class = RawMaterialDetailedSerializer
+    pagination_class = CustomPageNumberPagination
+    serializer_class = ConsumingMaterialDetailedSerializer
     queryset = ConsumingMaterialDetailed.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_class = ConsumingMaterialDetailedFilter
@@ -196,7 +202,7 @@ class ConsumingMaterialDetailedApi(viewsets.ModelViewSet):
 class RequestSupplyApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.requestsupply"
-
+    pagination_class = CustomPageNumberPagination
     serializer_class = RequestSupplySerializer
     queryset = RequestSupply.objects.all()
 
@@ -215,7 +221,6 @@ class RequestSupplyApi(viewsets.ModelViewSet):
 class RawMaterialFactorApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.rawmaterialfactor"
-
     serializer_class = RawMaterialFactorSerializer
     queryset = RawMaterialFactor.objects.all()
 
@@ -223,7 +228,7 @@ class RawMaterialFactorApi(viewsets.ModelViewSet):
 class ProductionApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.production"
-
+    pagination_class = CustomPageNumberPagination
     serializer_class = ProductionSerializer
     queryset = Production.objects.all()
 
@@ -231,7 +236,6 @@ class ProductionApi(viewsets.ModelViewSet):
 class ProductionCheckApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.productioncheck"
-
     serializer_class = ProductionCheckSerializer
     queryset = ProductionCheck.objects.all()
 
@@ -239,7 +243,6 @@ class ProductionCheckApi(viewsets.ModelViewSet):
 class RawMaterialCheckApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.rawmaterialcheck"
-
     serializer_class = RawMaterialCheckSerializer
     queryset = RawMaterialCheck.objects.all()
 
@@ -247,7 +250,6 @@ class RawMaterialCheckApi(viewsets.ModelViewSet):
 class ConsumingMaterialFactorApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.consumingmaterialfactor"
-
     serializer_class = ConsumingMaterialFactorSerializer
     queryset = ConsumingMaterialFactor.objects.all()
 
@@ -255,7 +257,6 @@ class ConsumingMaterialFactorApi(viewsets.ModelViewSet):
 class ConsumingMaterialCheckApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.consumingmaterialcheck"
-
     serializer_class = ConsumingMaterialCheckSerializer
     queryset = ConsumingMaterialCheck.objects.all()
 
@@ -263,7 +264,7 @@ class ConsumingMaterialCheckApi(viewsets.ModelViewSet):
 class WasteApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.waste"
-
+    pagination_class = CustomPageNumberPagination
     serializer_class = WasteSerializer
     queryset = Waste.objects.all()
 
@@ -271,8 +272,5 @@ class WasteApi(viewsets.ModelViewSet):
 class WasteCheckApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.wastecheck"
-
     serializer_class = WasteCheckSerializer
     queryset = WasteCheck.objects.all()
-
-

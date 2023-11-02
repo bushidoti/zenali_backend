@@ -1,4 +1,5 @@
 from django.db import models
+from django_jalali.db import models as jmodels
 
 
 class ApplyBuy(models.Model):
@@ -8,7 +9,7 @@ class ApplyBuy(models.Model):
     applicant = models.CharField("درخواست کننده", max_length=50, blank=False)
     description = models.CharField("توضیحات", default='', max_length=150, blank=False, null=False)
     is_supplied = models.BooleanField("تامین شده ؟", blank=True, null=True)
-    date = models.DateField("تاریخ", default='', blank=False, null=False)
+    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "درخواست خرید کالا"

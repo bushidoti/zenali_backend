@@ -1,5 +1,8 @@
 from django.contrib import admin
+from django_jalali.admin.filters import JDateFieldListFilter
+
 from .models import *
+import django_jalali.admin as jadmin
 
 
 class RawMaterialAdmin(admin.ModelAdmin):
@@ -29,8 +32,8 @@ class RawMaterialFactorAdmin(admin.ModelAdmin):
 
 
 class RawMaterialDetailedAdmin(admin.ModelAdmin):
-    list_display = ['product', 'name', 'document_type', 'systemID',
-                    'document_code', 'date', 'operator', 'operator', 'input', 'output', 'scale', 'rate', 'average_rate',
+    list_display = ['product', 'name', 'ownership', 'systemID',
+                    'document_code', 'date', 'operator', 'input', 'output', 'scale', 'rate', 'average_rate',
                     'amount', 'afterOperator', 'consumable',
                     'buyer', 'seller', 'address_seller', 'seller_national_id', 'receiver', 'amendment']
     list_per_page = 10
@@ -69,8 +72,8 @@ class ConsumingMaterialFactorAdmin(admin.ModelAdmin):
 
 
 class ConsumingMaterialDetailedAdmin(admin.ModelAdmin):
-    list_display = ['product', 'name', 'document_type', 'systemID',
-                    'document_code', 'date', 'operator', 'operator', 'input', 'output', 'scale', 'rate', 'average_rate',
+    list_display = ['product', 'name', 'ownership', 'systemID',
+                    'document_code', 'date', 'operator', 'input', 'output', 'scale', 'rate', 'average_rate',
                     'amount', 'afterOperator', 'consumable',
                     'buyer', 'seller', 'address_seller', 'seller_national_id', 'receiver', 'amendment']
     list_per_page = 10
@@ -79,6 +82,9 @@ class ConsumingMaterialDetailedAdmin(admin.ModelAdmin):
         "product__name",
         "seller",
         "systemID",
+    )
+    list_filter = (
+        ('date', JDateFieldListFilter),
     )
 
 
