@@ -7,6 +7,7 @@ from production.views import PendingProduceApi
 from sale.views import SaleFactorApi, SaleApi, AutoIncrementSaleFactorApi
 from buy.views import ApplyBuyApi
 from .views import AutoIncrementApi
+from user.views import BannerApi
 from consumable_warehouse.views import ConsumableApi, ProductFactorApi, ProductApi, ProductDetailedApi, ProductCheckApi, \
     CategoryApi
 
@@ -36,6 +37,7 @@ router.register(r'product_factor', ProductFactorApi, 'product_factor')
 router.register(r'product', ProductApi, 'product')
 router.register(r'product_detailed', ProductDetailedApi, 'product_detailed')
 router.register(r'product_check', ProductCheckApi, 'product_check')
+router.register(r'banner', BannerApi, 'banner')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth.models import Group
 from user.models import Employee
+from .models import Banner
+from .serializer import BannerSerializer
 
 from user.serializer import UserSerializer
 
@@ -44,3 +45,8 @@ class DepartmentView(APIView):
         result = Employee.objects.filter(user=self.request.user.id)
         content = {'content': result[0].department}
         return Response(content)
+
+
+class BannerApi(viewsets.ModelViewSet):
+    serializer_class = BannerSerializer
+    queryset = Banner.objects.all()

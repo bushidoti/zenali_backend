@@ -17,3 +17,10 @@ class Employee(models.Model):
 
     class Meta:
         verbose_name_plural = "اطلاعات اضافه"
+
+
+class Banner(models.Model):
+    message = models.TextField(verbose_name='متن')
+
+    class Meta:
+        verbose_name_plural = "متن بنر"
