@@ -56,7 +56,7 @@ class RawMaterialDetailedSerializer(DynamicFieldsModelSerializer, serializers.Mo
     class Meta:
         model = RawMaterialDetailed
         fields = '__all__'
-        extra_fields = ['name']
+        extra_fields = ['name', 'scale']
 
     def get_field_names(self, declared_fields, info):
         expanded_fields = super(RawMaterialDetailedSerializer, self).get_field_names(
@@ -84,7 +84,7 @@ class ConsumingMaterialDetailedSerializer(DynamicFieldsModelSerializer, serializ
     class Meta:
         model = ConsumingMaterialDetailed
         fields = '__all__'
-        extra_fields = ['name']
+        extra_fields = ['name', 'scale']
 
     def get_field_names(self, declared_fields, info):
         expanded_fields = super(ConsumingMaterialDetailedSerializer, self).get_field_names(
