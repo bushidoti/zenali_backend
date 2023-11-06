@@ -113,10 +113,11 @@ class RawMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
     product = django_filters.rest_framework.NumberFilter(field_name='product', lookup_expr='exact')
     product_contain = django_filters.rest_framework.NumberFilter(field_name='product__code', lookup_expr='contains')
     consumable = django_filters.rest_framework.NumberFilter(field_name='consumable', lookup_expr='contains')
+    seller_national_id = django_filters.rest_framework.NumberFilter(field_name='seller_national_id', lookup_expr='contains')
 
     class Meta:
         model = RawMaterialDetailed
-        fields = ['id', 'date', 'name', 'seller', 'product_contain', 'amendment', 'consumable',
+        fields = ['id', 'date', 'name', 'seller_national_id', 'seller', 'product_contain', 'amendment', 'consumable',
                   'scale', 'document_code',
                   'ownership',
                   'operator', 'receiver',
@@ -157,6 +158,7 @@ class ConsumingMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
     document_code = django_filters.rest_framework.CharFilter(field_name='document_code', lookup_expr='contains')
     ownership = django_filters.rest_framework.CharFilter(field_name='ownership', lookup_expr='contains')
     id = django_filters.rest_framework.CharFilter(field_name='id', lookup_expr='exact')
+    seller_national_id = django_filters.rest_framework.NumberFilter(field_name='seller_national_id', lookup_expr='contains')
     systemID = django_filters.rest_framework.NumberFilter(field_name='systemID', lookup_expr='exact')
     operator = MultipleFilter(
         lookup_expr="contains",
@@ -169,7 +171,7 @@ class ConsumingMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
 
     class Meta:
         model = ConsumingMaterialDetailed
-        fields = ['id', 'date', 'name', 'seller', 'product_contain', 'amendment', 'consumable',
+        fields = ['id', 'date', 'name','seller_national_id', 'seller', 'product_contain', 'amendment', 'consumable',
                   'scale', 'document_code',
                   'ownership',
                   'operator', 'receiver',
