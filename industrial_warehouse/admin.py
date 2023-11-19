@@ -33,7 +33,7 @@ class RawMaterialFactorAdmin(admin.ModelAdmin):
 
 class RawMaterialDetailedAdmin(admin.ModelAdmin):
     list_display = ['product', 'name', 'ownership', 'systemID',
-                    'document_code', 'date', 'operator', 'input', 'output', 'scale', 'rate', 'average_rate',
+                    'document_code', 'date', 'operator', 'request', 'input', 'output', 'scale', 'rate', 'average_rate',
                     'amount', 'afterOperator', 'consumable',
                     'buyer', 'seller', 'address_seller', 'seller_national_id', 'receiver', 'amendment']
     list_per_page = 10
