@@ -1,4 +1,3 @@
-from django_jalali.serializers.serializerfield import JDateField
 from rest_framework import serializers
 from .models import *
 

@@ -159,12 +159,12 @@ class ConsumingMaterialDetailed(models.Model):
 class RequestSupply(models.Model):
     raw_material_jsonData = models.JSONField("کپسول مواد اولیه", blank=False, null=True)
     consuming_material_jsonData = models.JSONField("کپسول مواد مصرفی", blank=False, null=True)
-    applicant = models.CharField("درخواست کننده", max_length=50, blank=False)
-    purpose = models.CharField("دلیل", default='', max_length=150, blank=False, null=False)
+    applicant = models.CharField("درخواست کننده", max_length=50, blank=True)
+    purpose = models.CharField("دلیل", max_length=150, blank=True, null=False)
     date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     is_delivered = models.BooleanField("تحویل شده ؟", blank=True, null=True)
     supplement = models.BooleanField("متمم برای ادامه سفارش ؟", blank=True, null=True)
-    which_request = models.BigIntegerField("متمم سفارش مربوطه ؟", blank=True, null=True)
+    which_request = models.CharField("متمم سفارش مربوطه ؟", blank=True, max_length=150, default='', null=True)
 
     class Meta:
         verbose_name_plural = "درخواست کالا از انبار"

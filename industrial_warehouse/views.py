@@ -1,6 +1,4 @@
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from django.db import connection
 from .serializer import *
 from .models import *
 import django_filters
@@ -10,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import BasePermission
 from django_filters.fields import CSVWidget, MultipleChoiceField
 from django_filters import rest_framework as df_filters
-from rest_framework.pagination import PageNumberPagination, _positive_int
+from rest_framework.pagination import PageNumberPagination
 
 
 class MyPermission(BasePermission):
@@ -113,7 +111,8 @@ class RawMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
     product = django_filters.rest_framework.NumberFilter(field_name='product', lookup_expr='exact')
     product_contain = django_filters.rest_framework.NumberFilter(field_name='product__code', lookup_expr='contains')
     consumable = django_filters.rest_framework.NumberFilter(field_name='consumable', lookup_expr='contains')
-    seller_national_id = django_filters.rest_framework.NumberFilter(field_name='seller_national_id', lookup_expr='contains')
+    seller_national_id = django_filters.rest_framework.NumberFilter(field_name='seller_national_id',
+                                                                    lookup_expr='contains')
 
     class Meta:
         model = RawMaterialDetailed
@@ -158,7 +157,8 @@ class ConsumingMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
     document_code = django_filters.rest_framework.CharFilter(field_name='document_code', lookup_expr='contains')
     ownership = django_filters.rest_framework.CharFilter(field_name='ownership', lookup_expr='contains')
     id = django_filters.rest_framework.CharFilter(field_name='id', lookup_expr='exact')
-    seller_national_id = django_filters.rest_framework.NumberFilter(field_name='seller_national_id', lookup_expr='contains')
+    seller_national_id = django_filters.rest_framework.NumberFilter(field_name='seller_national_id',
+                                                                    lookup_expr='contains')
     systemID = django_filters.rest_framework.NumberFilter(field_name='systemID', lookup_expr='exact')
     operator = MultipleFilter(
         lookup_expr="contains",
@@ -171,7 +171,7 @@ class ConsumingMaterialDetailedFilter(django_filters.rest_framework.FilterSet):
 
     class Meta:
         model = ConsumingMaterialDetailed
-        fields = ['id', 'date', 'name','seller_national_id', 'seller', 'product_contain', 'amendment', 'consumable',
+        fields = ['id', 'date', 'name', 'seller_national_id', 'seller', 'product_contain', 'amendment', 'consumable',
                   'scale', 'document_code',
                   'ownership',
                   'operator', 'receiver',
@@ -201,23 +201,28 @@ class ConsumingMaterialDetailedApi(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
+class RequestSupplyFilter(django_filters.rest_framework.FilterSet):
+    date = django_filters.rest_framework.CharFilter(field_name='date', lookup_expr='exact')
+    purpose = django_filters.rest_framework.CharFilter(field_name='purpose', lookup_expr='contains')
+    applicant = django_filters.rest_framework.CharFilter(field_name='applicant', lookup_expr='contains')
+    id = django_filters.rest_framework.NumberFilter(field_name='id', lookup_expr='contains')
+    which_request = django_filters.rest_framework.CharFilter(field_name='which_request', lookup_expr='contains')
+    supplement = django_filters.rest_framework.BooleanFilter(field_name='supplement', lookup_expr='contains')
+    is_delivered = django_filters.rest_framework.BooleanFilter(field_name='is_delivered', lookup_expr='contains')
+
+    class Meta:
+        model = RequestSupply
+        fields = ['id', 'applicant', 'purpose', 'date', 'is_delivered', 'supplement', 'which_request']
+
+
 class RequestSupplyApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.requestsupply"
     pagination_class = CustomPageNumberPagination
     serializer_class = RequestSupplySerializer
     queryset = RequestSupply.objects.all()
-
-    def create(self, request, *args, **kwargs):
-        is_many = isinstance(request.data, list)
-        if not is_many:
-            return super(RequestSupplyApi, self).create(request, *args, **kwargs)
-        else:
-            serializer = self.get_serializer(data=request.data, many=True)
-            serializer.is_valid(raise_exception=True)
-            self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_class = RequestSupplyFilter
 
 
 class RawMaterialFactorApi(viewsets.ModelViewSet):
