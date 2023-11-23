@@ -1,12 +1,10 @@
 from django.contrib import admin
 from django_jalali.admin.filters import JDateFieldListFilter
-
 from .models import *
-import django_jalali.admin as jadmin
 
 
 class RawMaterialAdmin(admin.ModelAdmin):
-    list_display = ['code', 'name', 'scale']
+    list_display = ['code', 'name', 'scale', 'left', 'average_rate']
     list_editable = ['name', 'scale']
     list_per_page = 10
     search_fields = (
@@ -46,7 +44,7 @@ class RawMaterialDetailedAdmin(admin.ModelAdmin):
 
 
 class ConsumingMaterialAdmin(admin.ModelAdmin):
-    list_display = ['code', 'name', 'scale']
+    list_display = ['code', 'name', 'scale', 'left', 'average_rate']
     list_editable = ['name', 'scale']
     list_per_page = 10
     search_fields = (

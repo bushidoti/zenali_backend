@@ -6,6 +6,8 @@ class RawMaterial(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     name = models.CharField("نام کالا", max_length=100, blank=False, null=True)
     scale = models.CharField("مقیاس", max_length=50, blank=True, null=True)
+    left = models.FloatField("مانده", blank=True, null=True)
+    average_rate = models.FloatField("ارزش", blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "انبار مواد اولیه"
@@ -120,7 +122,8 @@ class ConsumingMaterial(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     name = models.CharField("نام کالا", max_length=100, blank=False, null=True)
     scale = models.CharField("مقیاس", max_length=50, blank=True, null=True)
-
+    left = models.FloatField("مانده", blank=True, null=True)
+    average_rate = models.FloatField("ارزش", blank=True, null=True)
     class Meta:
         verbose_name_plural = "انبار مواد مصرفی"
 
