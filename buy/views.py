@@ -1,4 +1,6 @@
+import django_filters
 from rest_framework.exceptions import MethodNotAllowed
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from .serializer import *
@@ -33,12 +35,27 @@ class MyPermission(BasePermission):
         return False
 
 
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size_query_param = 'size'
+    page_query_param = 'page'
+
+
+class ApplyBuyAFilter(django_filters.rest_framework.FilterSet):
+    is_supplied = django_filters.rest_framework.BooleanFilter(field_name='is_supplied', lookup_expr='exact')
+    id = django_filters.rest_framework.NumberFilter(field_name='id', lookup_expr='contains')
+
+    class Meta:
+        model = ApplyBuy
+        fields = ['id', 'is_supplied']
+
 class ApplyBuyApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "buy.applybuy"
-
+    pagination_class = CustomPageNumberPagination
     serializer_class = ApplyBuySerializer
     queryset = ApplyBuy.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_class = ApplyBuyAFilter
 
     def create(self, request, *args, **kwargs):
         is_many = isinstance(request.data, list)
