@@ -18,6 +18,7 @@ class RequestSupply(models.Model):
     consuming_material_jsonData = models.JSONField("کپسول مواد مصرفی", blank=False, null=True)
     applicant = models.CharField("درخواست کننده", max_length=50, blank=True)
     purpose = models.CharField("دلیل", max_length=150, blank=True, null=False)
+    amount = models.BigIntegerField("تعداد", blank=True, null=True)
     date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     is_delivered = models.BooleanField("تحویل شده ؟", blank=True, null=True)
     supplement = models.BooleanField("متمم برای ادامه سفارش ؟", blank=True, null=True)
@@ -124,6 +125,7 @@ class ConsumingMaterial(models.Model):
     scale = models.CharField("مقیاس", max_length=50, blank=True, null=True)
     left = models.FloatField("مانده", blank=True, null=True)
     average_rate = models.FloatField("ارزش", blank=True, null=True)
+
     class Meta:
         verbose_name_plural = "انبار مواد مصرفی"
 
