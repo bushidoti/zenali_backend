@@ -9,6 +9,7 @@ class PendingProduce(models.Model):
     purpose = models.CharField("دلیل", default='', max_length=150, blank=False, null=False)
     status = models.CharField("وضعیت", default='', max_length=150, blank=False, null=False)
     date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
+    amount = models.BigIntegerField("تعداد", blank=True, null=True)
     request = models.ForeignKey(RequestSupply, on_delete=models.CASCADE, blank=True, null=True, verbose_name="شماره "
                                                                                                              "سفارش "
                                                                                                              "مرتبط")

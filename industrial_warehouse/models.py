@@ -42,8 +42,11 @@ class Production(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     name = models.CharField("نام محصول", max_length=100, blank=False, null=True)
     amount = models.FloatField("تعداد", blank=True, null=True)
+    operator = models.CharField("عملیات", default='', max_length=50, blank=True, null=True)
     cost = models.FloatField("ارزش", blank=True, null=True)
     checkCode = models.ForeignKey(ProductionCheck, on_delete=models.CASCADE, blank=True, null=True)
+    request = models.ForeignKey(RequestSupply, on_delete=models.CASCADE, blank=True, null=True, verbose_name="شماره "
+                                                                                                             "درخواست")
 
     class Meta:
         verbose_name_plural = "انبار محصول"

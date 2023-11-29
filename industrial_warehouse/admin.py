@@ -87,7 +87,7 @@ class ConsumingMaterialDetailedAdmin(admin.ModelAdmin):
 
 
 class RequestSupplyAdmin(admin.ModelAdmin):
-    list_display = ['applicant', 'purpose', 'date', 'supplement', 'which_request', 'is_delivered']
+    list_display = ['applicant', 'purpose', 'amount', 'date', 'supplement', 'which_request', 'is_delivered']
     list_per_page = 10
 
 

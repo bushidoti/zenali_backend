@@ -3,7 +3,7 @@ from .models import PendingProduce
 
 
 class PendingProduceAdmin(admin.ModelAdmin):
-    list_display = ['request', 'date', 'status', 'purpose']
+    list_display = ['request', 'date', 'status', 'purpose', 'amount']
     list_per_page = 10
     search_fields = (
         "request",
