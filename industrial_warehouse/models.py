@@ -1,6 +1,8 @@
 from django.db import models
 from django_jalali.db import models as jmodels
 
+from sale.models import SaleFactor
+
 
 class RawMaterial(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
@@ -31,7 +33,6 @@ class RequestSupply(models.Model):
 class ProductionCheck(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
-    checks = models.TextField("فایل باینری حواله", default='', blank=True, null=True)
     jsonData = models.JSONField("کپسول اقلام حواله", blank=False, null=True)
 
     class Meta:
@@ -42,9 +43,29 @@ class Production(models.Model):
     code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     name = models.CharField("نام محصول", max_length=100, blank=False, null=True)
     amount = models.FloatField("تعداد", blank=True, null=True)
-    operator = models.CharField("عملیات", default='', max_length=50, blank=True, null=True)
     cost = models.FloatField("ارزش", blank=True, null=True)
-    checkCode = models.ForeignKey(ProductionCheck, on_delete=models.CASCADE, blank=True, null=True)
+    fee = models.FloatField("دستمزد", blank=True, null=True)
+    overload = models.FloatField("سربار ", blank=True, null=True)
+    total = models.FloatField("جمع", blank=True, null=True)
+    request = models.ForeignKey(RequestSupply, on_delete=models.CASCADE, blank=True, null=True, verbose_name="شماره "
+                                                                                                             "درخواست")
+
+    class Meta:
+        verbose_name_plural = "انبار محصول"
+
+
+class ProductionDetail(models.Model):
+    name = models.CharField("نام محصول", max_length=100, blank=False, null=True)
+    amount = models.FloatField("تعداد", blank=True, null=True)
+    checkCode = models.ForeignKey(ProductionCheck, on_delete=models.CASCADE, blank=True, null=True,
+                                  verbose_name="شماره "
+                                               "حواله")
+    product = models.ForeignKey(Production, on_delete=models.CASCADE, blank=True, null=True,
+                                verbose_name="کد "
+                                             "محصول")
+    saleFactorCode = models.ForeignKey(SaleFactor, on_delete=models.CASCADE, blank=True, null=True,
+                                       verbose_name="شماره "
+                                                    "فاکتور فروش")
     request = models.ForeignKey(RequestSupply, on_delete=models.CASCADE, blank=True, null=True, verbose_name="شماره "
                                                                                                              "درخواست")
 

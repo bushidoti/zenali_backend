@@ -232,12 +232,24 @@ class RawMaterialFactorApi(viewsets.ModelViewSet):
     queryset = RawMaterialFactor.objects.all()
 
 
+class ProductionFilter(django_filters.rest_framework.FilterSet):
+    code = django_filters.rest_framework.NumberFilter(field_name='code', lookup_expr='contains')
+    request = django_filters.rest_framework.NumberFilter(field_name='request__id', lookup_expr='contains')
+    name = django_filters.rest_framework.CharFilter(field_name='name', lookup_expr='contains')
+
+    class Meta:
+        model = Production
+        fields = ['code', 'name', 'request']
+
+
 class ProductionApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "industrial_warehouse.production"
     pagination_class = CustomPageNumberPagination
     serializer_class = ProductionSerializer
     queryset = Production.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_class = ProductionFilter
 
 
 class ProductionCheckApi(viewsets.ModelViewSet):
@@ -281,3 +293,24 @@ class WasteCheckApi(viewsets.ModelViewSet):
     perm_slug = "industrial_warehouse.wastecheck"
     serializer_class = WasteCheckSerializer
     queryset = WasteCheck.objects.all()
+
+
+class ProductionDetailFilter(django_filters.rest_framework.FilterSet):
+    product = django_filters.rest_framework.NumberFilter(field_name='product__code', lookup_expr='exact')
+    checkCode = django_filters.rest_framework.NumberFilter(field_name='checkCode__code', lookup_expr='contains')
+    request = django_filters.rest_framework.NumberFilter(field_name='request__id', lookup_expr='contains')
+    saleFactorCode = django_filters.rest_framework.NumberFilter(field_name='saleFactorCode__code', lookup_expr='contains')
+    name = django_filters.rest_framework.CharFilter(field_name='name', lookup_expr='contains')
+
+    class Meta:
+        model = Production
+        fields = ['product', 'name', 'checkCode', 'request', 'saleFactorCode']
+
+
+class ProductionDetailApi(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated, MyPermission]
+    perm_slug = "industrial_warehouse.productiondetail"
+    serializer_class = ProductionDetailSerializer
+    queryset = ProductionDetail.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_class = ProductionDetailFilter

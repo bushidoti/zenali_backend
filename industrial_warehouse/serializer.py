@@ -67,6 +67,12 @@ class RawMaterialDetailedSerializer(DynamicFieldsModelSerializer, serializers.Mo
             return expanded_fields
 
 
+class ProductionDetailSerializer(DynamicFieldsModelSerializer, serializers.ModelSerializer):
+    class Meta:
+        model = ProductionDetail
+        fields = '__all__'
+
+
 class ConsumingMaterialFactorSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConsumingMaterialFactor

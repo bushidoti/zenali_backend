@@ -92,8 +92,7 @@ class RequestSupplyAdmin(admin.ModelAdmin):
 
 
 class ProductionAdmin(admin.ModelAdmin):
-    list_display = ['code', 'name', 'amount', 'cost',
-                    'checkCode']
+    list_display = ['code', 'name', 'amount', 'cost', 'fee', 'overload', 'total']
     list_per_page = 10
     search_fields = (
         "code",
@@ -126,6 +125,18 @@ class WasteCheckAdmin(admin.ModelAdmin):
     )
 
 
+class ProductionDetailAdmin(admin.ModelAdmin):
+    list_display = ['product', 'name', 'amount', 'checkCode', 'saleFactorCode', 'request']
+    list_per_page = 10
+    search_fields = (
+        "product",
+        "name",
+        "checkCode",
+        "saleFactorCode",
+        "request",
+    )
+
+
 admin.site.register(RawMaterial, RawMaterialAdmin)
 admin.site.register(RawMaterialCheck, RawMaterialCheckAdmin)
 admin.site.register(RawMaterialFactor, RawMaterialFactorAdmin)
@@ -139,3 +150,4 @@ admin.site.register(Production, ProductionAdmin)
 admin.site.register(ProductionCheck, ProductionCheckAdmin)
 admin.site.register(Waste, WasteAdmin)
 admin.site.register(WasteCheck, WasteCheckAdmin)
+admin.site.register(ProductionDetail, ProductionDetailAdmin)

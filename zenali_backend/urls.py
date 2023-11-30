@@ -37,6 +37,7 @@ router.register(r'product', ProductApi, 'product')
 router.register(r'product_detailed', ProductDetailedApi, 'product_detailed')
 router.register(r'product_check', ProductCheckApi, 'product_check')
 router.register(r'banner', BannerApi, 'banner')
+router.register(r'production_detail', ProductionDetailApi, 'production_detail')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
