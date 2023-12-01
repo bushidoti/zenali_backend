@@ -304,7 +304,7 @@ class ProductionDetailFilter(django_filters.rest_framework.FilterSet):
     name = django_filters.rest_framework.CharFilter(field_name='name', lookup_expr='contains')
 
     class Meta:
-        model = Production
+        model = ProductionDetail
         fields = ['product', 'name', 'checkCode', 'request', 'saleFactorCode']
 
 
