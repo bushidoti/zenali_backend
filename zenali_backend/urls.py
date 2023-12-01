@@ -4,7 +4,7 @@ from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 from industrial_warehouse.views import *
 from production.views import PendingProduceApi
-from sale.views import SaleFactorApi, AutoIncrementSaleFactorApi
+from sale.views import SaleFactorApi
 from buy.views import ApplyBuyApi
 from .views import AutoIncrementApi
 from user.views import BannerApi
@@ -27,7 +27,6 @@ router.register(r'consuming_material_factor', ConsumingMaterialFactorApi, 'consu
 router.register(r'consuming_material_check', ConsumingMaterialCheckApi, 'consuming_material_check')
 router.register(r'waste', WasteApi, 'waste')
 router.register(r'waste_check', WasteCheckApi, 'waste_check')
-router.register(r'auto_increment_sale_factor', AutoIncrementSaleFactorApi, 'auto_increment_sale_factor')
 router.register(r'pending_produce', PendingProduceApi, 'pending_produce')
 router.register(r'consumable', ConsumableApi, 'consumable')
 router.register(r'category', CategoryApi, 'category')

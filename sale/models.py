@@ -3,7 +3,7 @@ from django_jalali.db import models as jmodels
 
 
 class SaleFactor(models.Model):
-    code = models.BigIntegerField("کد ثبت", primary_key=True, unique=True)
+    code = models.AutoField("کد ثبت", primary_key=True, unique=True)
     jsonData = models.JSONField("کپسول اقلام فاکتور", blank=False, null=True)
     date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
     total = models.BigIntegerField("مبلغ کل", blank=True, null=True)
@@ -16,8 +16,3 @@ class SaleFactor(models.Model):
         verbose_name_plural = "فاکتور های فروش"
 
 
-class AutoIncrementSaleFactor(models.Model):
-    increment = models.BigIntegerField("شمارنده", blank=True, null=True)
-
-    class Meta:
-        verbose_name_plural = "شمارنده کد فاکتور"

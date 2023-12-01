@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SaleFactor, AutoIncrementSaleFactor
+from .models import SaleFactor
 
 
 class SaleFactorAdmin(admin.ModelAdmin):
@@ -11,4 +11,3 @@ class SaleFactorAdmin(admin.ModelAdmin):
 
 
 admin.site.register(SaleFactor, SaleFactorAdmin)
-admin.site.register(AutoIncrementSaleFactor)

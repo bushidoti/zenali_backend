@@ -1,9 +1,10 @@
-from .serializer import *
-from .models import *
+import django_filters
+from .serializer import SaleFactorSerializer
+from .models import SaleFactor
 from rest_framework import viewsets
 from rest_framework.exceptions import MethodNotAllowed
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.permissions import BasePermission
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated, BasePermission
 
 
 class MyPermission(BasePermission):
@@ -32,17 +33,26 @@ class MyPermission(BasePermission):
         return False
 
 
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size_query_param = 'size'
+    page_query_param = 'page'
+
+
+class SaleFactorFilter(django_filters.rest_framework.FilterSet):
+    date = django_filters.rest_framework.CharFilter(field_name='date', lookup_expr='exact')
+    code = django_filters.rest_framework.NumberFilter(field_name='code', lookup_expr='contains')
+
+    class Meta:
+        model = SaleFactor
+        fields = ['code', 'date']
+
+
 class SaleFactorApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "sale.salefactor"
-
+    pagination_class = CustomPageNumberPagination
     serializer_class = SaleFactorSerializer
     queryset = SaleFactor.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_class = SaleFactorFilter
 
-
-class AutoIncrementSaleFactorApi(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, MyPermission]
-    perm_slug = "sale.autoincrementsalefactor"
-
-    serializer_class = AutoIncrementSaleFactorSerializer
-    queryset = AutoIncrementSaleFactor.objects.all()
