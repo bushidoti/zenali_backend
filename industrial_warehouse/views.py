@@ -299,7 +299,8 @@ class ProductionDetailFilter(django_filters.rest_framework.FilterSet):
     product = django_filters.rest_framework.NumberFilter(field_name='product__code', lookup_expr='exact')
     checkCode = django_filters.rest_framework.NumberFilter(field_name='checkCode__code', lookup_expr='contains')
     request = django_filters.rest_framework.NumberFilter(field_name='request__id', lookup_expr='contains')
-    saleFactorCode = django_filters.rest_framework.NumberFilter(field_name='saleFactorCode__code', lookup_expr='contains')
+    saleFactorCode = django_filters.rest_framework.NumberFilter(field_name='saleFactorCode__code',
+                                                                lookup_expr='contains')
     name = django_filters.rest_framework.CharFilter(field_name='name', lookup_expr='contains')
 
     class Meta:
@@ -314,3 +315,14 @@ class ProductionDetailApi(viewsets.ModelViewSet):
     queryset = ProductionDetail.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_class = ProductionDetailFilter
+
+    def create(self, request, *args, **kwargs):
+        is_many = isinstance(request.data, list)
+        if not is_many:
+            return super(ProductionDetailApi, self).create(request, *args, **kwargs)
+        else:
+            serializer = self.get_serializer(data=request.data, many=True)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

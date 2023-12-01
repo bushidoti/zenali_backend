@@ -1,11 +1,5 @@
 from rest_framework import serializers
-from .models import Sale, SaleFactor,AutoIncrementSaleFactor
-
-
-class SaleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Sale
-        fields = '__all__'
+from .models import SaleFactor, AutoIncrementSaleFactor
 
 
 class SaleFactorSerializer(serializers.ModelSerializer):

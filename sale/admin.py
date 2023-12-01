@@ -1,13 +1,5 @@
 from django.contrib import admin
-from .models import Sale, SaleFactor, AutoIncrementSaleFactor
-
-
-class SaleAdmin(admin.ModelAdmin):
-    list_display = ['factorCode', 'date']
-    list_per_page = 10
-    search_fields = (
-        "factorCode",
-    )
+from .models import SaleFactor, AutoIncrementSaleFactor
 
 
 class SaleFactorAdmin(admin.ModelAdmin):
@@ -18,6 +10,5 @@ class SaleFactorAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Sale, SaleAdmin)
 admin.site.register(SaleFactor, SaleFactorAdmin)
 admin.site.register(AutoIncrementSaleFactor)

@@ -32,14 +32,6 @@ class MyPermission(BasePermission):
         return False
 
 
-class SaleApi(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, MyPermission]
-    perm_slug = "sale.sale"
-
-    serializer_class = SaleSerializer
-    queryset = Sale.objects.all()
-
-
 class SaleFactorApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "sale.salefactor"

@@ -70,7 +70,7 @@ class ProductionDetail(models.Model):
                                                                                                              "درخواست")
 
     class Meta:
-        verbose_name_plural = "انبار محصول"
+        verbose_name_plural = "گزارش خروج محصول"
 
 
 class RawMaterialFactor(models.Model):

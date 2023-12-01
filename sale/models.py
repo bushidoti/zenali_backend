@@ -21,11 +21,3 @@ class AutoIncrementSaleFactor(models.Model):
 
     class Meta:
         verbose_name_plural = "شمارنده کد فاکتور"
-
-
-class Sale(models.Model):
-    date = jmodels.jDateField("تاریخ", auto_now_add=True, blank=True, null=True)
-    factorCode = models.ForeignKey(SaleFactor, on_delete=models.CASCADE, blank=True, null=True)
-
-    class Meta:
-        verbose_name_plural = "گزراش فروش"
