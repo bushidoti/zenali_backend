@@ -10,6 +10,7 @@ from .views import AutoIncrementApi
 from user.views import BannerApi
 from consumable_warehouse.views import ConsumableApi, ProductFactorApi, ProductApi, ProductDetailedApi, ProductCheckApi, \
     CategoryApi
+from property.views import *
 
 router = routers.DefaultRouter()
 router.register(r'apply_buy', ApplyBuyApi, 'apply_buy')
@@ -36,6 +37,9 @@ router.register(r'product_detailed', ProductDetailedApi, 'product_detailed')
 router.register(r'product_check', ProductCheckApi, 'product_check')
 router.register(r'banner', BannerApi, 'banner')
 router.register(r'production_detail', ProductionDetailApi, 'production_detail')
+router.register(r'factor_property', FactorPropertyApi, 'factor_property')
+router.register(r'property', PropertyApi, 'property')
+router.register(r'repaired_property', RepairedPropertyApi, 'repaired_property')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -3,7 +3,7 @@ from .models import SaleFactor
 
 
 class SaleFactorAdmin(admin.ModelAdmin):
-    list_display = ['code', 'date', 'total', 'tax', 'discount', 'extra', 'paid']
+    list_display = ['code', 'date', 'total', 'tax', 'discount', 'extra']
     list_per_page = 10
     search_fields = (
         "code",

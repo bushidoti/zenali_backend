@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'industrial_warehouse',
     'consumable_warehouse',
     'production',
+    'property',
     'sale',
     'buy',
     'rest_framework_simplejwt.token_blacklist',

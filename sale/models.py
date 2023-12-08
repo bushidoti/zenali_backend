@@ -10,7 +10,6 @@ class SaleFactor(models.Model):
     tax = models.BigIntegerField("مالیات",blank=True, null=True)
     discount = models.BigIntegerField("تخفیف", blank=True, null=True)
     extra = models.CharField("اضافات", max_length=50, blank=True, null=True)
-    paid = models.BigIntegerField("مبلغ پرداختی", blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "فاکتور های فروش"
