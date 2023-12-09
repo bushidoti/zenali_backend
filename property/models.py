@@ -65,3 +65,6 @@ class RepairedProperty(models.Model):
 
     class Meta:
         verbose_name_plural = "تعمیرات اموال"
+
+
+
