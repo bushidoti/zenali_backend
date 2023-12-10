@@ -1,3 +1,4 @@
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from .serializer import *
@@ -46,6 +47,11 @@ class MultipleFilter(df_filters.MultipleChoiceFilter):
     field_class = MultipleField
 
 
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size_query_param = 'size'
+    page_query_param = 'page'
+
+
 class ProductFilter(django_filters.rest_framework.FilterSet):
     name = django_filters.rest_framework.CharFilter(field_name='name', lookup_expr='contains')
     name_exact = django_filters.rest_framework.CharFilter(field_name='name', lookup_expr='exact')
@@ -64,11 +70,11 @@ class ProductFilter(django_filters.rest_framework.FilterSet):
 class ProductApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "consumable_warehouse.product"
-
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_class = ProductFilter
+    pagination_class = CustomPageNumberPagination
 
 
 class ProductDetailedFilter(django_filters.rest_framework.FilterSet):
@@ -115,7 +121,7 @@ class ProductDetailedFilter(django_filters.rest_framework.FilterSet):
 class ProductDetailedApi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, MyPermission]
     perm_slug = "consumable_warehouse.productdetailed"
-
+    pagination_class = CustomPageNumberPagination
     serializer_class = ProductDetailedSerializer
     queryset = ProductDetailed.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
