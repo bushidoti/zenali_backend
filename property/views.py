@@ -56,8 +56,6 @@ class FactorPropertyApi(viewsets.ModelViewSet):
     perm_slug = "property.factorproperty"
     serializer_class = FactorPropertySerializer
     queryset = FactorProperty.objects.all()
-    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ['inventory']
 
 
 class PropertyFilter(django_filters.rest_framework.FilterSet):
@@ -69,12 +67,6 @@ class PropertyFilter(django_filters.rest_framework.FilterSet):
     number = django_filters.rest_framework.CharFilter(field_name='number', lookup_expr='contains')
     name_exact = django_filters.rest_framework.CharFilter(field_name='name', lookup_expr='exact')
     year_buy = django_filters.rest_framework.CharFilter(field_name='year_buy', lookup_expr='exact')
-    dst_inventory = django_filters.rest_framework.CharFilter(field_name='dst_inventory', lookup_expr='exact')
-    inventory = MultipleFilter(
-        lookup_expr="contains",
-        field_name="inventory",
-        widget=CSVWidget
-    )
     category = MultipleFilter(
         lookup_expr="contains",
         field_name="category",
@@ -100,9 +92,8 @@ class PropertyFilter(django_filters.rest_framework.FilterSet):
         model = Property
         fields = ['code', 'movement_status', 'name', 'user', 'using_location', 'number', 'type_furniture', 'year_made',
                   'owner', 'use_for',
-                  'year_buy', 'install_location', 'document_code', 'category',
-                  'dst_inventory', 'factorCode', 'factorCode_exact', 'model', 'property_number',
-                  'inventory', 'name_exact']
+                  'year_buy', 'install_location', 'document_code', 'category', 'factorCode', 'factorCode_exact',
+                  'model', 'property_number', 'name_exact']
 
 
 class PropertyApi(viewsets.ModelViewSet):
